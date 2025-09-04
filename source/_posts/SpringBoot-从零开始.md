@@ -10,7 +10,7 @@ categories:
   - 技术教程
   - Java开发
 description: 从零开始学习Spring Boot，包含环境配置、项目创建、基础开发到部署的完整流程
-cover: /img/springboot-cover.jpeg
+cover: /img/springboot-cover.png
 ---
 
 # 🌱 Spring Boot - 从零开始
