@@ -32,8 +32,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build site
-        run: npx hexo generate
+      - name: Clean and build site
+        run: |
+          npx hexo clean
+          npx hexo generate
 
       - name: Deploy to GitHub Pages
         env:
