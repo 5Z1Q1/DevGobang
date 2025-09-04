@@ -812,8 +812,8 @@ beautify:
 # Global font settings
 # Don't modify the following settings unless you know how they work
 font:
-  global_font_size: 14px      # 全局字体大小（默认14px，可调整为16px或18px）
-  code_font_size: 12px        # 代码块字体大小（默认12px，可调整为14px或16px）
+  global_font_size: 16px      # 全局字体大小（默认14px，可调整为16px或18px）
+  code_font_size: 14px        # 代码块字体大小（默认12px，可调整为14px或16px）
   font_family: 'PingFangSC'   # 字体系列
   code_font_family: 'Jetbrains Mono'   # 代码字体系列
 
