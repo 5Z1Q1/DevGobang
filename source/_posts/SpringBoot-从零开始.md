@@ -9,13 +9,15 @@ tags:
 categories: 
   - 技术教程
   - Java开发
+  - 后端开发
+  - Spring Boot
 description: 从零开始学习Spring Boot，包含环境配置、项目创建、基础开发到部署的完整流程
 cover: /img/springboot-cover.jpeg
 ---
 
-# 🌱 Spring Boot 从零开始完全指南
+# 🌱 Spring Boot - 从零开始
 
-欢迎来到Spring Boot的世界！这篇文章将带你从零开始，掌握Spring Boot开发的完整流程。
+欢迎来到Spring Boot！这篇文章将带你从零开始，掌握Spring Boot开发的基本流程。
 
 ## 📋 目录
 
