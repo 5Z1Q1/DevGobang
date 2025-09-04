@@ -9,8 +9,6 @@ tags:
 categories: 
   - 技术教程
   - Java开发
-  - 后端开发
-  - Spring Boot
 description: 从零开始学习Spring Boot，包含环境配置、项目创建、基础开发到部署的完整流程
 cover: /img/springboot-cover.jpeg
 ---
