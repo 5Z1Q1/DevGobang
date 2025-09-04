@@ -92,7 +92,7 @@ footer_img: /img/bg.png
 
 # Website Background
 # Can set it to color or image url
-background: "#E6F3FF" 
+background: "linear-gradient(135deg, #D6E8F5 0%, #E8E8D0 100%)" 
 
 cover:
   # Disable the cover or not
