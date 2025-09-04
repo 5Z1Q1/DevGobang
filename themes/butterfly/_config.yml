@@ -11,7 +11,7 @@
 
 nav:
   # Navigation bar logo image
-  logo:
+  logo: /img/my-icon-trans.png
   display_title: true
   display_post_title: true
   # Whether to fix navigation bar
@@ -56,28 +56,28 @@ social:
 favicon: /img/favicon.png
 
 avatar:
-  img: /img/butterfly-icon.png
+  img: /img/favicon.png
   effect: false
 
 # Disable all banner images
 disable_top_img: false
 
 # If the banner of page not setting, it will show the default_top_img
-default_top_img:
+default_top_img: /img/bg.png
 
 # The banner image of index page
-index_img:
+index_img: /img/bg.png
 
 # The banner image of archive page
-archive_img:
+archive_img: /img/bg.png
 
 # Note: tag page, not tags page
-tag_img:
+tag_img: /img/bg.png
 
 # The banner image of tag page, you can set the banner image for each tag
 # Format:
 #  - tag name: xxxxx
-tag_per_img:
+tag_per_img: /img/bg.png
 
 # Note: category page, not categories page
 category_img:
@@ -88,7 +88,7 @@ category_img:
 category_per_img:
 
 # The background image of footer
-footer_img: false
+footer_img: /img/bg.png
 
 # Website Background
 # Can set it to color or image url
@@ -812,15 +812,15 @@ beautify:
 # Global font settings
 # Don't modify the following settings unless you know how they work
 font:
-  global_font_size:
-  code_font_size:
-  font_family:
-  code_font_family:
+  global_font_size: 14px
+  code_font_size: 12px
+  font_family: 'PingFangSC'
+  code_font_family: 'Jetbrains Mono'
 
 # Font settings for the site title and site subtitle
 blog_title_font:
   font_link:
-  font_family:
+  font_family: 'PingFangSC'
 
 # The setting of divider icon
 hr_icon:
