@@ -11,7 +11,7 @@ categories:
   - 技术教程
   - 中间件
 description: 详细介绍Spring Boot如何集成Redis，包含Redis基本特征、使用场景以及常见面试题
-cover: /img/redis-cover.jpg
+cover: /img/redis-cover.png
 ---
 
 # 🚀 Spring Boot集成Redis详解与面试要点
