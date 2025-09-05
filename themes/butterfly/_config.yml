@@ -291,7 +291,7 @@ aside:
       link: https://github.com/5Z1Q1
   card_announcement:
     enable: true
-    content: Vamos lá! Let's Go!
+    content: 富强 民主 文明 和谐 自由 平等 公正 法治 爱国 敬业 诚信 友善
   card_recent_post:
     enable: true
     # If set 0 will show all
