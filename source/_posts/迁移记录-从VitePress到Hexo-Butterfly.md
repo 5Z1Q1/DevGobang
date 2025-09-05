@@ -11,7 +11,6 @@ tags:
 categories: 
   - 技术分享
   - 博客建设
-cover: /img/blog-migration.jpg
 description: 记录从VitePress迁移到Hexo+Butterfly的完整过程，分享两种静态站点生成器的对比和选择心得
 sticky: 1
 ---
