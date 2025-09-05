@@ -10,7 +10,7 @@ tags:
 categories: 
   - 技术教程
   - 机器学习
-cover: /img/transformer-cover.jpg
+cover: /img/transformer-cover.png
 description: 深入解析Transformer架构，这个改变了自然语言处理领域的革命性神经网络模型
 ---
 
