@@ -1,5 +1,5 @@
 ---
-title: SpringBoot从零开始完全指南
+title: SpringBoot - 从零开始
 date: 2025-09-04 15:30:00
 tags: 
   - Spring Boot

@@ -1,5 +1,5 @@
 ---
-title: Spring Boot集成Redis详解与面试要点
+title: Spring Boot 集成 Redis
 date: 2025-09-04 16:00:00
 tags: 
   - Spring Boot

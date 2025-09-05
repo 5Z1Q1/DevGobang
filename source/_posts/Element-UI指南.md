@@ -7,7 +7,7 @@ cover: /img/elementUI-cover.png
 description: Element UI 是一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库，本文详细介绍其常用组件、样式优先级和使用技巧。
 ---
 
-# Element-UI 完整使用指南
+# Element-UI 使用指南
 
 Element UI 是饿了么前端团队开源的一套基于 Vue.js 2.0 的桌面端组件库，提供了丰富的组件和优雅的设计风格，极大地提升了前端开发效率。
 
