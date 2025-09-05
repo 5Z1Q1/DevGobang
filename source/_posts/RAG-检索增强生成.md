@@ -12,7 +12,7 @@ tags:
 categories: 
   - 技术教程
   - 机器学习
-cover: /img/rag-cover.jpg
+cover: /img/rag-cover.png
 description: 探索RAG（检索增强生成）技术，了解如何结合检索和生成能力构建更智能的AI系统
 ---
 
