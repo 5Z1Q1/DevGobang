@@ -3,7 +3,7 @@ title: 动态规划9：区间DP问题
 date: 2025-09-14 22:05:22
 categories: 技术教程/算法与数据结构
 tags: [动态规划, 区间DP, 算法, LeetCode, 矩阵链乘法, 石子合并, Java]
-cover: /img/edit-distance-cover.png
+cover: /img/dp-cover.png
 description: 深入探讨区间动态规划的核心思想与经典问题，从矩阵链乘法到石子合并，掌握区间DP的状态设计和转移方程。
 ---
 
