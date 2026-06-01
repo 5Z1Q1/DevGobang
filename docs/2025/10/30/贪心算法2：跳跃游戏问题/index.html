@@ -1,0 +1,387 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>贪心算法2：跳跃游戏问题 | DevGobang</title><meta name="author" content="五子棋"><meta name="copyright" content="五子棋"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="贪心算法第2篇：深入理解跳跃游戏问题的多种解法与优化策略">
+<meta property="og:type" content="article">
+<meta property="og:title" content="贪心算法2：跳跃游戏问题">
+<meta property="og:url" content="https://www.5zi7.top/2025/10/30/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%952%EF%BC%9A%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="DevGobang">
+<meta property="og:description" content="贪心算法第2篇：深入理解跳跃游戏问题的多种解法与优化策略">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.5zi7.top/img/greedy-cover.png">
+<meta property="article:published_time" content="2025-10-30T07:54:01.000Z">
+<meta property="article:modified_time" content="2025-10-30T09:02:02.838Z">
+<meta property="article:author" content="五子棋">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="LeetCode">
+<meta property="article:tag" content="贪心算法">
+<meta property="article:tag" content="跳跃游戏">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.5zi7.top/img/greedy-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "贪心算法2：跳跃游戏问题",
+  "url": "https://www.5zi7.top/2025/10/30/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%952%EF%BC%9A%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F%E9%97%AE%E9%A2%98/",
+  "image": "https://www.5zi7.top/img/greedy-cover.png",
+  "datePublished": "2025-10-30T07:54:01.000Z",
+  "dateModified": "2025-10-30T09:02:02.838Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "五子棋",
+      "url": "https://www.5zi7.top"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://www.5zi7.top/2025/10/30/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%952%EF%BC%9A%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F%E9%97%AE%E9%A2%98/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '贪心算法2：跳跃游戏问题',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background: linear-gradient(135deg, #D6E8F5 0%, #E8E8D0 100%);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/favicon.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">69</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/greedy-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/my-icon-trans.png" alt="Logo"><span class="site-name">DevGobang</span></a><a class="nav-page-title" href="/"><span class="site-name">贪心算法2：跳跃游戏问题</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">贪心算法2：跳跃游戏问题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-30T07:54:01.000Z" title="发表于 2025-10-30 15:54:01">2025-10-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-30T09:02:02.838Z" title="更新于 2025-10-30 17:02:02">2025-10-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/">技术分享</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在上一篇文章中，我们学习了贪心算法的经典问题——区间调度问题。今天我们将探讨另一个有趣的贪心问题：<strong>跳跃游戏</strong>。</p>
+<p>跳跃游戏问题不仅在算法面试中频繁出现，而且能够很好地展示贪心算法从暴力解法到优化解法的思维过程。通过这个问题，我们将学习如何逐步优化算法，找到最优的贪心策略。</p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><h3 id="跳跃游戏-I-LeetCode-55"><a href="#跳跃游戏-I-LeetCode-55" class="headerlink" title="跳跃游戏 I (LeetCode 55)"></a>跳跃游戏 I (LeetCode 55)</h3><p>给定一个非负整数数组 <code>nums</code>，你最初位于数组的第一个下标。数组中的每个元素代表你在该位置可以跳跃的最大长度。判断你是否能够到达最后一个下标。</p>
+<p><strong>示例 1</strong>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [2,3,1,1,4]</span><br><span class="line">输出：true</span><br><span class="line">解释：可以先跳 1 步，从下标 0 到达下标 1, 然后再从下标 1 跳 3 步到达最后一个下标。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2</strong>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [3,2,1,0,4]</span><br><span class="line">输出：false</span><br><span class="line">解释：无论怎样，总会到达下标为 3 的位置。但该下标的最大跳跃长度是 0，</span><br><span class="line">     所以永远不可能到达最后一个下标。</span><br></pre></td></tr></table></figure>
+
+<h3 id="跳跃游戏-II-LeetCode-45"><a href="#跳跃游戏-II-LeetCode-45" class="headerlink" title="跳跃游戏 II (LeetCode 45)"></a>跳跃游戏 II (LeetCode 45)</h3><p>给定一个非负整数数组 <code>nums</code>，你最初位于数组的第一个位置。数组中的每个元素代表你在该位置可以跳跃的最大长度。你的目标是使用最少的跳跃次数到达数组的最后一个位置。假设你总是可以到达数组的最后一个位置。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [2,3,1,1,4]</span><br><span class="line">输出：2</span><br><span class="line">解释：跳到最后一个位置的最小跳跃数是 2。</span><br><span class="line">     从下标 0 跳到下标 1, 跳 1 步, 然后跳 3 步到达数组的最后一个位置。</span><br></pre></td></tr></table></figure>
+
+<h2 id="解法一：跳跃游戏-I-能否到达终点"><a href="#解法一：跳跃游戏-I-能否到达终点" class="headerlink" title="解法一：跳跃游戏 I - 能否到达终点"></a>解法一：跳跃游戏 I - 能否到达终点</h2><h3 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h3><p>我们需要判断是否能到达最后一个位置。关键思想：<strong>维护一个能够到达的最远位置</strong>。</p>
+<p><strong>贪心策略</strong>：</p>
+<ol>
+<li>遍历数组，不断更新能够到达的最远位置</li>
+<li>如果当前位置超过了最远位置，说明无法继续前进</li>
+<li>如果最远位置 &gt;&#x3D; 数组长度-1，说明可以到达终点</li>
+</ol>
+<h3 id="代码实现-跳跃游戏-I"><a href="#代码实现-跳跃游戏-I" class="headerlink" title="代码实现 - 跳跃游戏 I"></a>代码实现 - 跳跃游戏 I</h3><h4 id="Java-代码"><a href="#Java-代码" class="headerlink" title="Java 代码"></a>Java 代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JumpGame</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 跳跃游戏 I - 判断能否到达最后一个位置</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> nums 非负整数数组</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 能否到达最后一个位置</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">canJump</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums == <span class="literal">null</span> || nums.length == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="type">int</span> <span class="variable">maxReach</span> <span class="operator">=</span> <span class="number">0</span>;  <span class="comment">// 能够到达的最远位置</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="comment">// 如果当前位置超过了最远可达位置，无法继续</span></span><br><span class="line">            <span class="keyword">if</span> (i &gt; maxReach) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 更新最远可达位置</span></span><br><span class="line">            maxReach = Math.max(maxReach, i + nums[i]);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 如果已经可以到达或超过最后一个位置</span></span><br><span class="line">            <span class="keyword">if</span> (maxReach &gt;= nums.length - <span class="number">1</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> maxReach &gt;= nums.length - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 优化版本：倒序遍历</span></span><br><span class="line"><span class="comment">     * 从后往前找，看能否一步步推到起点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">canJumpBackward</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">lastPos</span> <span class="operator">=</span> nums.length - <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> nums.length - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i + nums[i] &gt;= lastPos) &#123;</span><br><span class="line">                lastPos = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> lastPos == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Python-代码"><a href="#Python-代码" class="headerlink" title="Python 代码"></a>Python 代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">can_jump</span>(<span class="params">nums</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    跳跃游戏 I - 判断能否到达最后一个位置</span></span><br><span class="line"><span class="string">    :param nums: List[int] 非负整数数组</span></span><br><span class="line"><span class="string">    :return: bool 能否到达最后一个位置</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> nums:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line">    max_reach = <span class="number">0</span>  <span class="comment"># 能够到达的最远位置</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">        <span class="comment"># 如果当前位置超过了最远可达位置，无法继续</span></span><br><span class="line">        <span class="keyword">if</span> i &gt; max_reach:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 更新最远可达位置</span></span><br><span class="line">        max_reach = <span class="built_in">max</span>(max_reach, i + nums[i])</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 如果已经可以到达或超过最后一个位置</span></span><br><span class="line">        <span class="keyword">if</span> max_reach &gt;= <span class="built_in">len</span>(nums) - <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> max_reach &gt;= <span class="built_in">len</span>(nums) - <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">can_jump_backward</span>(<span class="params">nums</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    优化版本：倒序遍历</span></span><br><span class="line"><span class="string">    从后往前找，看能否一步步推到起点</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    last_pos = <span class="built_in">len</span>(nums) - <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums) - <span class="number">2</span>, -<span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> i + nums[i] &gt;= last_pos:</span><br><span class="line">            last_pos = i</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> last_pos == <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><ul>
+<li><strong>时间复杂度</strong>：O(n)，只需遍历一遍数组</li>
+<li><strong>空间复杂度</strong>：O(1)，只使用常数额外空间</li>
+</ul>
+<h2 id="解法二：跳跃游戏-II-最少跳跃次数"><a href="#解法二：跳跃游戏-II-最少跳跃次数" class="headerlink" title="解法二：跳跃游戏 II - 最少跳跃次数"></a>解法二：跳跃游戏 II - 最少跳跃次数</h2><h3 id="贪心策略与算法流程"><a href="#贪心策略与算法流程" class="headerlink" title="贪心策略与算法流程"></a>贪心策略与算法流程</h3><p>这个问题要求找到最少的跳跃次数。我们可以用贪心策略：<strong>在每一步中选择能够跳到最远位置的方案</strong>。</p>
+<p><strong>关键概念</strong>：</p>
+<ul>
+<li><code>currentEnd</code>：当前跳跃能到达的边界</li>
+<li><code>farthest</code>：下一跳能到达的最远位置</li>
+<li><code>jumps</code>：跳跃次数</li>
+</ul>
+<p><strong>算法流程</strong>：</p>
+<ol>
+<li>遍历数组（不包括最后一个元素）</li>
+<li>不断更新下一跳能到达的最远位置</li>
+<li>当到达当前跳跃边界时，必须进行下一跳</li>
+</ol>
+<h3 id="代码实现-跳跃游戏-II"><a href="#代码实现-跳跃游戏-II" class="headerlink" title="代码实现 - 跳跃游戏 II"></a>代码实现 - 跳跃游戏 II</h3><h4 id="Java-代码-跳跃游戏-II"><a href="#Java-代码-跳跃游戏-II" class="headerlink" title="Java 代码 - 跳跃游戏 II"></a>Java 代码 - 跳跃游戏 II</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JumpGameII</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 跳跃游戏 II - 最少跳跃次数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> nums 非负整数数组</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 最少跳跃次数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">jump</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums == <span class="literal">null</span> || nums.length &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="type">int</span> <span class="variable">jumps</span> <span class="operator">=</span> <span class="number">0</span>;         <span class="comment">// 跳跃次数</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">currentEnd</span> <span class="operator">=</span> <span class="number">0</span>;    <span class="comment">// 当前跳跃的边界</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">farthest</span> <span class="operator">=</span> <span class="number">0</span>;      <span class="comment">// 下一跳能到达的最远位置</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 注意：不需要访问最后一个元素</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="comment">// 更新下一跳能到达的最远位置</span></span><br><span class="line">            farthest = Math.max(farthest, i + nums[i]);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 到达当前跳跃的边界，需要进行下一跳</span></span><br><span class="line">            <span class="keyword">if</span> (i == currentEnd) &#123;</span><br><span class="line">                jumps++;</span><br><span class="line">                currentEnd = farthest;</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 如果已经可以到达或超过最后一个位置，提前结束</span></span><br><span class="line">                <span class="keyword">if</span> (currentEnd &gt;= nums.length - <span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> jumps;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 动态规划解法（用于对比）</span></span><br><span class="line"><span class="comment">     * 时间复杂度：O(n²)，空间复杂度：O(n)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">jumpDP</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">        Arrays.fill(dp, Integer.MAX_VALUE);</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt;= nums[i] &amp;&amp; i + j &lt; n; j++) &#123;</span><br><span class="line">                dp[i + j] = Math.min(dp[i + j], dp[i] + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dp[n - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Python-代码-跳跃游戏-II"><a href="#Python-代码-跳跃游戏-II" class="headerlink" title="Python 代码 - 跳跃游戏 II"></a>Python 代码 - 跳跃游戏 II</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">jump</span>(<span class="params">nums</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    跳跃游戏 II - 最少跳跃次数（贪心算法）</span></span><br><span class="line"><span class="string">    :param nums: List[int] 非负整数数组</span></span><br><span class="line"><span class="string">    :return: int 最少跳跃次数</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> nums <span class="keyword">or</span> <span class="built_in">len</span>(nums) &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    jumps = <span class="number">0</span>          <span class="comment"># 跳跃次数</span></span><br><span class="line">    current_end = <span class="number">0</span>    <span class="comment"># 当前跳跃的边界</span></span><br><span class="line">    farthest = <span class="number">0</span>       <span class="comment"># 下一跳能到达的最远位置</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 注意：不需要访问最后一个元素</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums) - <span class="number">1</span>):</span><br><span class="line">        <span class="comment"># 更新下一跳能到达的最远位置</span></span><br><span class="line">        farthest = <span class="built_in">max</span>(farthest, i + nums[i])</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 到达当前跳跃的边界，需要进行下一跳</span></span><br><span class="line">        <span class="keyword">if</span> i == current_end:</span><br><span class="line">            jumps += <span class="number">1</span></span><br><span class="line">            current_end = farthest</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 如果已经可以到达或超过最后一个位置，提前结束</span></span><br><span class="line">            <span class="keyword">if</span> current_end &gt;= <span class="built_in">len</span>(nums) - <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> jumps</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">jump_dp</span>(<span class="params">nums</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    动态规划解法（用于对比）</span></span><br><span class="line"><span class="string">    时间复杂度：O(n²)，空间复杂度：O(n)</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    n = <span class="built_in">len</span>(nums)</span><br><span class="line">    dp = [<span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)] * n</span><br><span class="line">    dp[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, nums[i] + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> i + j &lt; n:</span><br><span class="line">                dp[i + j] = <span class="built_in">min</span>(dp[i + j], dp[i] + <span class="number">1</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> dp[n - <span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="算法图解"><a href="#算法图解" class="headerlink" title="算法图解"></a>算法图解</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">nums = [2, 3, 1, 1, 4]</span><br><span class="line">索引:    0  1  2  3  4</span><br><span class="line"></span><br><span class="line">第1跳：从索引0出发，可以跳到索引1或2</span><br><span class="line">      选择跳到索引1（因为从1出发能跳得更远）</span><br><span class="line">      currentEnd = 2, farthest = 4</span><br><span class="line"></span><br><span class="line">第2跳：在索引1，可以跳到索引2、3、4</span><br><span class="line">      直接到达索引4（终点）</span><br><span class="line">      jumps = 2</span><br><span class="line"></span><br><span class="line">过程可视化：</span><br><span class="line">[2, 3, 1, 1, 4]</span><br><span class="line"> ^  ^  ^  ^  ^</span><br><span class="line"> |  |__|  |  |</span><br><span class="line"> |_____|__|__|</span><br><span class="line">    第1跳  第2跳</span><br></pre></td></tr></table></figure>
+
+<h3 id="时间空间复杂度"><a href="#时间空间复杂度" class="headerlink" title="时间空间复杂度"></a>时间空间复杂度</h3><ul>
+<li><strong>时间复杂度</strong>：O(n)，只需遍历一遍数组</li>
+<li><strong>空间复杂度</strong>：O(1)，只使用常数额外空间</li>
+</ul>
+<h2 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JumpGameTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 测试跳跃游戏 I</span></span><br><span class="line">        System.out.println(<span class="string">&quot;=== 跳跃游戏 I ===&quot;</span>);</span><br><span class="line">        <span class="type">int</span>[] test1 = &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>&#125;;</span><br><span class="line">        System.out.println(<span class="string">&quot;输入: &quot;</span> + Arrays.toString(test1));</span><br><span class="line">        System.out.println(<span class="string">&quot;能否到达: &quot;</span> + JumpGame.canJump(test1));  <span class="comment">// true</span></span><br><span class="line">        </span><br><span class="line">        <span class="type">int</span>[] test2 = &#123;<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">4</span>&#125;;</span><br><span class="line">        System.out.println(<span class="string">&quot;输入: &quot;</span> + Arrays.toString(test2));</span><br><span class="line">        System.out.println(<span class="string">&quot;能否到达: &quot;</span> + JumpGame.canJump(test2));  <span class="comment">// false</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 测试跳跃游戏 II</span></span><br><span class="line">        System.out.println(<span class="string">&quot;\n=== 跳跃游戏 II ===&quot;</span>);</span><br><span class="line">        <span class="type">int</span>[] test3 = &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>&#125;;</span><br><span class="line">        System.out.println(<span class="string">&quot;输入: &quot;</span> + Arrays.toString(test3));</span><br><span class="line">        System.out.println(<span class="string">&quot;最少跳跃次数: &quot;</span> + JumpGameII.jump(test3));  <span class="comment">// 2</span></span><br><span class="line">        </span><br><span class="line">        <span class="type">int</span>[] test4 = &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">4</span>&#125;;</span><br><span class="line">        System.out.println(<span class="string">&quot;输入: &quot;</span> + Arrays.toString(test4));</span><br><span class="line">        System.out.println(<span class="string">&quot;最少跳跃次数: &quot;</span> + JumpGameII.jump(test4));  <span class="comment">// 2</span></span><br><span class="line">        </span><br><span class="line">        <span class="type">int</span>[] test5 = &#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>&#125;;</span><br><span class="line">        System.out.println(<span class="string">&quot;输入: &quot;</span> + Arrays.toString(test5));</span><br><span class="line">        System.out.println(<span class="string">&quot;最少跳跃次数: &quot;</span> + JumpGameII.jump(test5));  <span class="comment">// 4</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="comment"># 测试跳跃游戏 I</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;=== 跳跃游戏 I ===&quot;</span>)</span><br><span class="line">    test1 = [<span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;输入: <span class="subst">&#123;test1&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;能否到达: <span class="subst">&#123;can_jump(test1)&#125;</span>&quot;</span>)  <span class="comment"># True</span></span><br><span class="line">    </span><br><span class="line">    test2 = [<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">4</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;输入: <span class="subst">&#123;test2&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;能否到达: <span class="subst">&#123;can_jump(test2)&#125;</span>&quot;</span>)  <span class="comment"># False</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 测试跳跃游戏 II</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\n=== 跳跃游戏 II ===&quot;</span>)</span><br><span class="line">    test3 = [<span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;输入: <span class="subst">&#123;test3&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;最少跳跃次数: <span class="subst">&#123;jump(test3)&#125;</span>&quot;</span>)  <span class="comment"># 2</span></span><br><span class="line">    </span><br><span class="line">    test4 = [<span class="number">2</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">4</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;输入: <span class="subst">&#123;test4&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;最少跳跃次数: <span class="subst">&#123;jump(test4)&#125;</span>&quot;</span>)  <span class="comment"># 2</span></span><br><span class="line">    </span><br><span class="line">    test5 = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;输入: <span class="subst">&#123;test5&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;最少跳跃次数: <span class="subst">&#123;jump(test5)&#125;</span>&quot;</span>)  <span class="comment"># 4</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="相关LeetCode题目"><a href="#相关LeetCode题目" class="headerlink" title="相关LeetCode题目"></a>相关LeetCode题目</h2><ol>
+<li><p><strong><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/jump-game/">55. 跳跃游戏</a></strong></p>
+<ul>
+<li>判断能否到达终点</li>
+</ul>
+</li>
+<li><p><strong><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/jump-game-ii/">45. 跳跃游戏 II</a></strong></p>
+<ul>
+<li>求最少跳跃次数</li>
+</ul>
+</li>
+<li><p><strong><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/jump-game-iii/">1306. 跳跃游戏 III</a></strong></p>
+<ul>
+<li>可以向左或向右跳跃</li>
+</ul>
+</li>
+<li><p><strong><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/jump-game-iv/">1345. 跳跃游戏 IV</a></strong></p>
+<ul>
+<li>可以跳到相同值的位置</li>
+</ul>
+</li>
+</ol>
+<h2 id="算法对比"><a href="#算法对比" class="headerlink" title="算法对比"></a>算法对比</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>时间复杂度</th>
+<th>空间复杂度</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>贪心算法</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>跳跃游戏 I 和 II 的最优解</td>
+</tr>
+<tr>
+<td>动态规划</td>
+<td>O(n²)</td>
+<td>O(n)</td>
+<td>更复杂的变种问题</td>
+</tr>
+<tr>
+<td>BFS</td>
+<td>O(n²)</td>
+<td>O(n)</td>
+<td>需要记录路径的情况</td>
+</tr>
+</tbody></table>
+<h2 id="关键思路总结"><a href="#关键思路总结" class="headerlink" title="关键思路总结"></a>关键思路总结</h2><h3 id="跳跃游戏-I-的贪心策略"><a href="#跳跃游戏-I-的贪心策略" class="headerlink" title="跳跃游戏 I 的贪心策略"></a>跳跃游戏 I 的贪心策略</h3><p><strong>核心思想</strong>：维护能够到达的最远位置</p>
+<ul>
+<li>如果当前位置 &gt; 最远位置，返回 false</li>
+<li>不断更新最远位置</li>
+<li>如果最远位置 &gt;&#x3D; 终点，返回 true</li>
+</ul>
+<h3 id="跳跃游戏-II-的贪心策略"><a href="#跳跃游戏-II-的贪心策略" class="headerlink" title="跳跃游戏 II 的贪心策略"></a>跳跃游戏 II 的贪心策略</h3><p><strong>核心思想</strong>：在必须跳跃时，选择能跳到最远的位置</p>
+<ul>
+<li>维护两个变量：当前边界和下一跳最远位置</li>
+<li>在遍历过程中不断更新下一跳最远位置</li>
+<li>到达当前边界时，执行跳跃，更新边界</li>
+</ul>
+<h2 id="思维扩展"><a href="#思维扩展" class="headerlink" title="思维扩展"></a>思维扩展</h2><p>跳跃游戏问题的本质是<strong>区间覆盖问题</strong>：</p>
+<ol>
+<li>每个位置 <code>i</code> 可以覆盖的区间是 <code>[i, i + nums[i]]</code></li>
+<li>问题转化为：这些区间能否覆盖整个数组</li>
+<li>贪心策略：始终选择能够延伸覆盖范围的最优方案</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过跳跃游戏问题，我们学到了：</p>
+<ol>
+<li><strong>贪心算法的优化思路</strong>：从动态规划的 O(n²) 优化到贪心的 O(n)</li>
+<li><strong>问题抽象能力</strong>：将跳跃问题抽象为区间覆盖问题</li>
+<li><strong>边界条件处理</strong>：注意遍历范围和提前终止条件</li>
+<li><strong>多种解法对比</strong>：理解不同算法的适用场景</li>
+</ol>
+<p>在下一篇文章中，我们将探讨<strong>加油站问题</strong>，这是另一个经典的贪心算法应用。</p>
+<hr>
+<blockquote>
+<p>💡 <strong>思考题</strong>：</p>
+<ol>
+<li>如果允许向左跳跃，算法需要如何修改？</li>
+<li>如果数组中有负数（表示必须后退），问题会变成什么样？</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>📚 <strong>扩展阅读</strong>:</p>
+<ul>
+<li>LeetCode 跳跃游戏系列题目解析</li>
+<li>贪心算法与动态规划的选择策略</li>
+<li>区间覆盖问题的通用解法</li>
+</ul>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.5zi7.top">五子棋</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.5zi7.top/2025/10/30/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%952%EF%BC%9A%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F%E9%97%AE%E9%A2%98/">https://www.5zi7.top/2025/10/30/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%952%EF%BC%9A%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F%E9%97%AE%E9%A2%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.5zi7.top" target="_blank">DevGobang</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/LeetCode/">LeetCode</a><a class="post-meta__tags" href="/tags/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/">贪心算法</a><a class="post-meta__tags" href="/tags/%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F/">跳跃游戏</a></div><div class="post-share"><div class="social-share" data-image="/img/greedy-cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/11/13/Conda%E6%89%8B%E5%86%8C/" title="Conda手册"><img class="cover" src="/img/conda.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Conda手册</div></div><div class="info-2"><div class="info-item-1">📘 简介Conda 是一个开源的包管理和环境管理系统，适用于 Python、R、Ruby、Lua、Scala、Java、JavaScript、C&#x2F;C++、FORTRAN 等多种语言。  Anaconda：完整的数据科学平台，包含 Conda 及大量预装包（约3GB） Miniconda：轻量级版本，只包含 Conda 和 Python（约400MB）  🔧 环境管理创建环境创建一个新的 Python 环境： 1conda create -n myenv python=3.9  说明：创建名为 myenv 的环境，指定 Python 版本为 3.9  创建环境并安装指定包： 1conda create -n myenv python=3.9 numpy pandas  说明：创建环境的同时安装 numpy 和 pandas 包  从配置文件创建环境： 1conda env create -f environment.yml  说明：根据 environment.yml 文件创建环境  激活和退出环境激活环境： 1conda activate myenv  说明：激活名...</div></div></div></a><a class="pagination-related" href="/2025/09/16/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%951%EF%BC%9A%E5%8C%BA%E9%97%B4%E8%B0%83%E5%BA%A6%E9%97%AE%E9%A2%98/" title="贪心算法1：区间调度问题"><img class="cover" src="/img/greedy-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">贪心算法1：区间调度问题</div></div><div class="info-2"><div class="info-item-1">引言贪心算法(Greedy Algorithm)是一种在每一步选择中都采取当前最优解的算法策略。它的核心思想是在求解过程中，始终做出当前看来最好的选择，希望通过局部最优选择达到全局最优的结果。 区间调度问题是学习贪心算法的经典入门题型，它能够很好地展示贪心算法的精髓和应用场景。 问题描述问题定义：给定若干个区间，选择尽可能多的区间，使得这些区间互不重叠。 例如：  区间集合：[[1,3], [2,6], [8,10], [15,18]] 最优解：选择 [1,3], [8,10], [15,18]，共3个区间  贪心策略分析对于区间调度问题，我们可能会考虑以下几种贪心策略： 策略1：选择起始时间最早的区间反例：[[1,100], [2,3], [4,5]]  贪心选择：[1,100] 最优解：[2,3], [4,5] 结论：此策略不可行  策略2：选择持续时间最短的区间反例：[[1,2], [2,100], [3,4]]  贪心选择：[1,2], [3,4] 但如果有 [[1,2], [1.5,2.5], [2,3]]，最短区间策略可能不是最优  策略3：选择结束时间最早的区间 ✓...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/09/12/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%926%EF%BC%9A%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E9%97%AE%E9%A2%98/" title="动态规划6：股票买卖问题"><img class="cover" src="/img/dp-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-12</div><div class="info-item-2">动态规划6：股票买卖问题</div></div><div class="info-2"><div class="info-item-1">引言在动态规划系列的前五篇文章中，我们分别学习了爬楼梯问题、最长公共子序列、01背包问题、最长递增子序列和不同路径问题。今天我们将探讨动态规划中极具实用价值的一类问题——股票买卖问题。 股票买卖问题是动态规划中的经典应用，它不仅在算法面试中频繁出现，更与实际的投资决策密切相关。通过学习这类问题，我们将深入理解状态机动态规划的设计思想和实现技巧。   问题背景股票买卖问题的核心在于：在给定的股票价格序列中，通过买入和卖出操作获得最大利润。 这类问题通常具有以下特征：  时间序列：股票价格按时间顺序给出 操作限制：买入卖出有各种限制条件 状态转换：持有股票和不持有股票是两种不同的状态 最优化目标：追求最大利润  问题分类与解法股票买卖问题根据交易限制可以分为几大类，我们将逐一分析： 类型一：买卖股票的最佳时机（只能交易一次）LeetCode 121. 买卖股票的最佳时机 问题描述给定一个数组 prices，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。你只能选择某一天买入这只股票，并选择在未来的某一天卖出该股票。设计一个算法来计算你所能获取的最大利润。 1...</div></div></div></a><a class="pagination-related" href="/2025/09/16/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%951%EF%BC%9A%E5%8C%BA%E9%97%B4%E8%B0%83%E5%BA%A6%E9%97%AE%E9%A2%98/" title="贪心算法1：区间调度问题"><img class="cover" src="/img/greedy-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-16</div><div class="info-item-2">贪心算法1：区间调度问题</div></div><div class="info-2"><div class="info-item-1">引言贪心算法(Greedy Algorithm)是一种在每一步选择中都采取当前最优解的算法策略。它的核心思想是在求解过程中，始终做出当前看来最好的选择，希望通过局部最优选择达到全局最优的结果。 区间调度问题是学习贪心算法的经典入门题型，它能够很好地展示贪心算法的精髓和应用场景。 问题描述问题定义：给定若干个区间，选择尽可能多的区间，使得这些区间互不重叠。 例如：  区间集合：[[1,3], [2,6], [8,10], [15,18]] 最优解：选择 [1,3], [8,10], [15,18]，共3个区间  贪心策略分析对于区间调度问题，我们可能会考虑以下几种贪心策略： 策略1：选择起始时间最早的区间反例：[[1,100], [2,3], [4,5]]  贪心选择：[1,100] 最优解：[2,3], [4,5] 结论：此策略不可行  策略2：选择持续时间最短的区间反例：[[1,2], [2,100], [3,4]]  贪心选择：[1,2], [3,4] 但如果有 [[1,2], [1.5,2.5], [2,3]]，最短区间策略可能不是最优  策略3：选择结束时间最早的区间 ✓...</div></div></div></a><a class="pagination-related" href="/2025/09/07/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%924%EF%BC%9A%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97%E9%97%AE%E9%A2%98/" title="动态规划4：最长递增子序列问题"><img class="cover" src="/img/dp-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-07</div><div class="info-item-2">动态规划4：最长递增子序列问题</div></div><div class="info-2"><div class="info-item-1">引言在动态规划系列的前三篇文章中，我们分别学习了爬楼梯问题、最长公共子序列和01背包问题。今天我们将探讨另一个动态规划的经典问题——最长递增子序列（Longest Increasing Subsequence，LIS）。 最长递增子序列问题不仅是动态规划的核心问题之一，更是算法优化思想的绝佳体现。从朴素的O(n²)动态规划解法，到巧妙的O(nlogn)优化算法，这个问题展现了算法设计的精妙之处。   问题定义什么是递增子序列？递增子序列：从原数组中按照原有顺序选取若干元素，使得这些元素严格递增。 注意几个关键点：  保持原有顺序：不能改变元素在原数组中的相对位置 严格递增：后面的元素必须大于前面的元素 不要求连续：子序列的元素在原数组中可以不相邻  最长递增子序列问题给定一个整数数组，找到其中最长递增子序列的长度。 经典例题：LeetCode 300. 最长递增子序列 1234567891011121314示例 1：输入：nums = [10,9,2,5,3,7,101,18]输出：4解释：最长递增子序列是 [2,3,7,18]，因此长度为 4。示例 2：输入：nums = [0...</div></div></div></a><a class="pagination-related" href="/2025/09/15/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%9210%EF%BC%9A%E9%80%9A%E9%85%8D%E7%AC%A6%E5%8C%B9%E9%85%8D%E9%97%AE%E9%A2%98/" title="动态规划10：通配符匹配问题"><img class="cover" src="/img/dp-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-15</div><div class="info-item-2">动态规划10：通配符匹配问题</div></div><div class="info-2"><div class="info-item-1">前言在动态规划系列的前九篇文章中，我们分别学习了爬楼梯问题、最长公共子序列、01背包问题、最长递增子序列、不同路径问题、股票买卖问题、编辑距离问题、回文子串问题和区间DP问题。 今天我们将探讨动态规划中另一个经典的字符串匹配问题——通配符匹配问题。这个问题在文件系统、正则表达式、数据库查询等领域都有广泛应用，是理解模式匹配算法的重要基础。 问题描述通配符匹配问题的核心是判断一个字符串是否能匹配一个包含通配符的模式。 基本规则 &#39;?&#39; 匹配任何单个字符 &#39;*&#39; 匹配任意数量的字符（包括零个） 其他字符必须精确匹配  问题定义给定一个字符串 s 和一个字符模式 p，实现一个支持 &#39;?&#39; 和 &#39;*&#39; 匹配的通配符匹配。 示例： 123456输入: s = &quot;adceb&quot;, p = &quot;*a*b*&quot;输出: true解释: 第一个 &#x27;*&#x27; 匹配空字符串, 第二个 &#x27;*&#x27; 匹配 &quot;dce&quot;.输入: s = &quot;acdcb&q...</div></div></div></a><a class="pagination-related" href="/2025/09/08/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%925%EF%BC%9A%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98%E4%B8%8E%E8%B7%AF%E5%BE%84%E8%AE%A1%E6%95%B0/" title="动态规划5：不同路径问题与路径计数"><img class="cover" src="/img/dp-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-08</div><div class="info-item-2">动态规划5：不同路径问题与路径计数</div></div><div class="info-2"><div class="info-item-1">引言在动态规划系列的前四篇文章中，我们分别学习了爬楼梯问题、最长公共子序列、01背包问题和最长递增子序列。今天我们将探讨动态规划的另一个重要分支——路径计数问题。 路径计数问题是动态规划中非常重要的一类问题，它不仅在算法面试中频繁出现，还与组合数学紧密相关。通过学习这类问题，我们能够深入理解动态规划在计数问题中的应用。   问题背景路径计数问题的核心思想是：在一个给定的空间中，计算从起点到终点的不同路径数量。这类问题通常具有以下特征：  方向限制：只能向特定方向移动（如向右、向下） 路径唯一性：每条路径由一系列移动步骤组成 计数目标：求所有可能路径的数量  经典例题一：不同路径问题描述LeetCode 62. 不同路径 一个机器人位于一个 m x n 网格的左上角。机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角。问总共有多少条不同的路径？ 1234567891011示例 1：输入：m = 3, n = 7输出：28示例 2：输入：m = 3, n = 2输出：3解释：从左上角开始，总共有 3 条路径可以到达右下角。1. 向右 -&gt; 向下 -&gt; 向下2....</div></div></div></a><a class="pagination-related" href="/2025/09/13/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%927%EF%BC%9A%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB%E9%97%AE%E9%A2%98/" title="动态规划7：编辑距离问题"><img class="cover" src="/img/dp-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-13</div><div class="info-item-2">动态规划7：编辑距离问题</div></div><div class="info-2"><div class="info-item-1">引言在动态规划系列的前六篇文章中，我们分别学习了爬楼梯问题、最长公共子序列、01背包问题、最长递增子序列、不同路径问题和股票买卖问题。今天我们将探讨动态规划中另一个重要且实用的问题——编辑距离问题。 编辑距离（Edit Distance），也称为Levenshtein距离，是衡量两个字符串相似度的重要指标。它在文本处理、DNA序列分析、拼写检查、机器翻译等领域有着广泛的应用。通过学习这个问题，我们将深入理解动态规划在字符串处理中的强大能力。   问题定义什么是编辑距离？编辑距离：将一个字符串转换为另一个字符串所需的最少编辑操作次数。 允许的编辑操作包括：  插入（Insert）：在字符串中插入一个字符 删除（Delete）：从字符串中删除一个字符 替换（Replace）：将字符串中的一个字符替换为另一个字符  经典例题LeetCode 72. 编辑距离 给你两个单词 word1 和 word2，请你计算出将 word1 转换成 word2 所使用的最少操作数。 1234567891011121314151617示例 1：输入：word1 = &quot;horse&quot;, ...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/favicon.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">五子棋</div><div class="author-info-description">Every Sunrise Fills Joy.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">69</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/5Z1Q1"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">富强 民主 文明 和谐 <br>自由 平等 公正 法治 <br>爱国 敬业 诚信 友善</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">问题描述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F-I-LeetCode-55"><span class="toc-number">2.1.</span> <span class="toc-text">跳跃游戏 I (LeetCode 55)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F-II-LeetCode-45"><span class="toc-number">2.2.</span> <span class="toc-text">跳跃游戏 II (LeetCode 45)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80%EF%BC%9A%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F-I-%E8%83%BD%E5%90%A6%E5%88%B0%E8%BE%BE%E7%BB%88%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">解法一：跳跃游戏 I - 能否到达终点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90"><span class="toc-number">3.1.</span> <span class="toc-text">思路分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F-I"><span class="toc-number">3.2.</span> <span class="toc-text">代码实现 - 跳跃游戏 I</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java-%E4%BB%A3%E7%A0%81"><span class="toc-number">3.2.1.</span> <span class="toc-text">Java 代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python-%E4%BB%A3%E7%A0%81"><span class="toc-number">3.2.2.</span> <span class="toc-text">Python 代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">3.3.</span> <span class="toc-text">复杂度分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%BA%8C%EF%BC%9A%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F-II-%E6%9C%80%E5%B0%91%E8%B7%B3%E8%B7%83%E6%AC%A1%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">解法二：跳跃游戏 II - 最少跳跃次数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%AA%E5%BF%83%E7%AD%96%E7%95%A5%E4%B8%8E%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B"><span class="toc-number">4.1.</span> <span class="toc-text">贪心策略与算法流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F-II"><span class="toc-number">4.2.</span> <span class="toc-text">代码实现 - 跳跃游戏 II</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java-%E4%BB%A3%E7%A0%81-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F-II"><span class="toc-number">4.2.1.</span> <span class="toc-text">Java 代码 - 跳跃游戏 II</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python-%E4%BB%A3%E7%A0%81-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F-II"><span class="toc-number">4.2.2.</span> <span class="toc-text">Python 代码 - 跳跃游戏 II</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3"><span class="toc-number">4.3.</span> <span class="toc-text">算法图解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-number">4.4.</span> <span class="toc-text">时间空间复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-number">5.</span> <span class="toc-text">测试用例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3LeetCode%E9%A2%98%E7%9B%AE"><span class="toc-number">6.</span> <span class="toc-text">相关LeetCode题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E5%AF%B9%E6%AF%94"><span class="toc-number">7.</span> <span class="toc-text">算法对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%80%9D%E8%B7%AF%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">关键思路总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F-I-%E7%9A%84%E8%B4%AA%E5%BF%83%E7%AD%96%E7%95%A5"><span class="toc-number">8.1.</span> <span class="toc-text">跳跃游戏 I 的贪心策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F-II-%E7%9A%84%E8%B4%AA%E5%BF%83%E7%AD%96%E7%95%A5"><span class="toc-number">8.2.</span> <span class="toc-text">跳跃游戏 II 的贪心策略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E7%BB%B4%E6%89%A9%E5%B1%95"><span class="toc-number">9.</span> <span class="toc-text">思维扩展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">10.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/03/05/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E9%85%8D%E7%BD%AEPython%E7%8E%AF%E5%A2%83/" title="从零开始配置Python环境"><img src="/img/PythonStart.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从零开始配置Python环境"/></a><div class="content"><a class="title" href="/2026/03/05/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E9%85%8D%E7%BD%AEPython%E7%8E%AF%E5%A2%83/" title="从零开始配置Python环境">从零开始配置Python环境</a><time datetime="2026-03-05T06:05:23.000Z" title="发表于 2026-03-05 14:05:23">2026-03-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/13/Conda%E6%89%8B%E5%86%8C/" title="Conda手册"><img src="/img/conda.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Conda手册"/></a><div class="content"><a class="title" href="/2025/11/13/Conda%E6%89%8B%E5%86%8C/" title="Conda手册">Conda手册</a><time datetime="2025-11-13T08:05:39.000Z" title="发表于 2025-11-13 16:05:39">2025-11-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/30/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%952%EF%BC%9A%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F%E9%97%AE%E9%A2%98/" title="贪心算法2：跳跃游戏问题"><img src="/img/greedy-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="贪心算法2：跳跃游戏问题"/></a><div class="content"><a class="title" href="/2025/10/30/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%952%EF%BC%9A%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F%E9%97%AE%E9%A2%98/" title="贪心算法2：跳跃游戏问题">贪心算法2：跳跃游戏问题</a><time datetime="2025-10-30T07:54:01.000Z" title="发表于 2025-10-30 15:54:01">2025-10-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/16/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%951%EF%BC%9A%E5%8C%BA%E9%97%B4%E8%B0%83%E5%BA%A6%E9%97%AE%E9%A2%98/" title="贪心算法1：区间调度问题"><img src="/img/greedy-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="贪心算法1：区间调度问题"/></a><div class="content"><a class="title" href="/2025/09/16/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%951%EF%BC%9A%E5%8C%BA%E9%97%B4%E8%B0%83%E5%BA%A6%E9%97%AE%E9%A2%98/" title="贪心算法1：区间调度问题">贪心算法1：区间调度问题</a><time datetime="2025-09-16T01:38:56.000Z" title="发表于 2025-09-16 09:38:56">2025-09-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/15/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%9210%EF%BC%9A%E9%80%9A%E9%85%8D%E7%AC%A6%E5%8C%B9%E9%85%8D%E9%97%AE%E9%A2%98/" title="动态规划10：通配符匹配问题"><img src="/img/dp-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="动态规划10：通配符匹配问题"/></a><div class="content"><a class="title" href="/2025/09/15/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%9210%EF%BC%9A%E9%80%9A%E9%85%8D%E7%AC%A6%E5%8C%B9%E9%85%8D%E9%97%AE%E9%A2%98/" title="动态规划10：通配符匹配问题">动态规划10：通配符匹配问题</a><time datetime="2025-09-15T02:49:52.000Z" title="发表于 2025-09-15 10:49:52">2025-09-15</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/bg.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 五子棋</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': '5Z1Q1/DevGobang',
+      'data-repo-id': '',
+      'data-category-id': '',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章..." type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

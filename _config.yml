@@ -23,7 +23,7 @@ pretty_urls:
 
 # Directory
 source_dir: source
-public_dir: public
+public_dir: docs
 tag_dir: tags
 archive_dir: archives
 category_dir: categories
@@ -105,6 +105,11 @@ theme: butterfly
 # deploy:
 #   type: ''
 deploy:
-  type: git
-  repo: https://github.com/5Z1Q1/DevGobang.git
-  branch: gh-pages
+  type: ''
+
+# Local search
+search:
+  path: search.xml
+  field: post
+  content: true
+  format: html
