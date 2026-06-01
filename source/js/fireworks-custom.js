@@ -1,60 +1,27 @@
 /**
- * Water ripple effect on click
- * Light blue / white color palette
+ * CSS water ripple effect - GPU accelerated, smooth animation
+ * Light blue / white palette
  */
 (function () {
-  const canvas = document.createElement('canvas');
-  canvas.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:9999;';
-  document.body.appendChild(canvas);
-  const ctx = canvas.getContext('2d');
-
-  let ripples = [];
-  let w, h;
-
-  function resize() {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
+  const style = document.createElement('style');
+  style.textContent = [
+    '.wrp { position:fixed; pointer-events:none; z-index:9999; border-radius:50%;',
+    '  border:2px solid rgba(135,206,250,.7);',
+    '  background:radial-gradient(circle,rgba(173,216,250,.25) 0%,rgba(200,230,255,.08) 50%,transparent 70%);',
+    '  animation:wrp-ripple .8s ease-out forwards; }',
+    '@keyframes wrp-ripple {',
+    '  0%   { width:0; height:0; opacity:1; transform:translate(-50%,-50%) scale(0); }',
+    '  100% { width:200px; height:200px; opacity:0; transform:translate(-50%,-50%) scale(1); }',
+    '}',
+  ].join('\n');
+  document.head.appendChild(style);
 
   document.addEventListener('click', function (e) {
-    for (let i = 0; i < 3; i++) {
-      ripples.push({
-        x: e.clientX,
-        y: e.clientY,
-        radius: 0,
-        maxRadius: 60 + i * 30,
-        life: 1,
-        delay: i * 120,
-      });
-    }
+    const el = document.createElement('div');
+    el.className = 'wrp';
+    el.style.left = e.clientX + 'px';
+    el.style.top = e.clientY + 'px';
+    document.body.appendChild(el);
+    el.addEventListener('animationend', function () { el.remove(); });
   });
-
-  function draw(timestamp) {
-    ctx.clearRect(0, 0, w, h);
-    ripples = ripples.filter(function (r) {
-      if (r.delay > 0) {
-        r.delay -= 16;
-        return true;
-      }
-      r.radius += 1.2;
-      r.life = 1 - r.radius / r.maxRadius;
-      if (r.life <= 0) return false;
-
-      ctx.save();
-      ctx.globalAlpha = r.life * 0.6;
-      ctx.strokeStyle = 'rgba(135, 206, 235, ' + (r.life * 0.8) + ')';
-      ctx.lineWidth = 2;
-      ctx.shadowColor = 'rgba(173, 216, 230, 0.5)';
-      ctx.shadowBlur = 8;
-      ctx.beginPath();
-      ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.restore();
-      return true;
-    });
-    requestAnimationFrame(draw);
-  }
-  requestAnimationFrame(draw);
 })();
