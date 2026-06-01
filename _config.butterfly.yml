@@ -878,7 +878,7 @@ canvas_nest:
 
 # Mouse click effects: fireworks
 fireworks:
-  enable: true
+  enable: false
   zIndex: 9999
   mobile: false
 
@@ -1049,7 +1049,7 @@ inject:
   head:
     # - <link rel="stylesheet" href="/xxx.css">
   bottom:
-    # - <script src="xxxx"></script>
+    - <script src="/js/fireworks-custom.js"></script>
 
 # CDN Settings
 # Don't modify the following settings unless you know how they work
