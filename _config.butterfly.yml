@@ -15,7 +15,7 @@ nav:
   display_title: true
   display_post_title: true
   # Whether to fix navigation bar
-  fixed: false
+  fixed: true
 
 menu:
   首页: / || fas fa-home
@@ -91,7 +91,7 @@ category_img:
 category_per_img:
 
 # The background image of footer
-footer_img: /img/bg.png
+footer_img:
 
 # Website Background
 # Can set it to color or image url
@@ -396,7 +396,7 @@ darkmode:
   end:
 
 # Show scroll percent in scroll-to-top button
-rightside_scroll_percent: false
+rightside_scroll_percent: true
 
 # Don't modify the following settings unless you know how they work
 # Choose: readmode,translate,darkmode,hideAside,toc,chat,comment
@@ -906,7 +906,7 @@ clickShowText:
 # https://github.com/francoischalifour/medium-zoom
 # https://fancyapps.com/fancybox/
 # Leave it empty if you don't need lightbox
-lightbox:
+lightbox: fancybox
 
 # --------------------------------------
 # Tag Plugins settings
@@ -1048,9 +1048,17 @@ css_prefix: true
 inject:
   head:
     - <style>#site-subtitle{font-size:.85em}</style>
+    - <link rel="stylesheet" href="/css/custom.css">
+    - <link rel="preconnect" href="https://fonts.googleapis.com">
+    - <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    - <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
   bottom:
     - <script src="/js/water-bg.js"></script>
     - <script src="/js/fireworks-custom.js"></script>
+    - <script src="/js/reading-progress.js"></script>
+    - <script src="/js/text-spacing.js"></script>
+    - <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+    - <script src="/js/code-highlight.js"></script>
 
 # CDN Settings
 # Don't modify the following settings unless you know how they work
