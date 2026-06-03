@@ -1057,8 +1057,7 @@ inject:
     - <script src="/js/fireworks-custom.js"></script>
     - <script src="/js/reading-progress.js"></script>
     - <script src="/js/text-spacing.js"></script>
-    - <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
-    - <script src="/js/code-highlight.js"></script>
+
 
 # CDN Settings
 # Don't modify the following settings unless you know how they work

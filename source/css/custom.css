@@ -31,6 +31,21 @@ figure.highlight,
   padding-bottom: 0;
 }
 
+/* 修复代码块水平滚动（table 恢复表格布局，figure 控制滚动） */
+#article-container figure.highlight {
+  overflow-x: auto;
+}
+#article-container figure.highlight table {
+  display: table;
+  width: auto;
+  min-width: 100%;
+  overflow: visible;
+}
+#article-container figure.highlight .code pre {
+  width: auto;
+  white-space: pre;
+}
+
 /* 封面标题字号 */
 #site-title {
   font-size: 1.85em !important;
