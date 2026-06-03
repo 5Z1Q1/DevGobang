@@ -17,41 +17,7 @@
   font-display: swap;
 }
 
-/* 全局字体：英文/数字 Jetbrains Mono，中文 宋体 */
-html,
-body,
-#body-wrap,
-#page-header,
-#article-container,
-.post-content,
-#nav,
-#aside-content,
-#footer,
-.recent-post-item,
-.card-widget,
-p, li, a, span {
-  font-family: 'Jetbrains Mono', '宋体', SimSun, STSong, 'Songti SC', serif !important;
-}
-
-/* 标题：方正小标宋简体 */
-h1, h2, h3, h4, h5, h6,
-#site-title,
-#site-subtitle,
-.recent-post-item .article-title a,
-#aside-content .item-headline,
-#article-container h1,
-#article-container h2,
-#article-container h3,
-#article-container h4,
-#article-container h5,
-#article-container h6,
-.post-title,
-.card-archives a,
-.card-categories a {
-  font-family: 'Jetbrains Mono', 'FZXBSJW', '宋体', SimSun, STSong, serif !important;
-  font-weight: normal;
-}
-
+/* 代码块字体保持不变 */
 #article-container code,
 pre,
 figure.highlight,
