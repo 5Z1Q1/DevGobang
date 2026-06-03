@@ -421,12 +421,7 @@ blockquote p {
 
 /* 页脚 */
 #footer {
-  background: var(--default-bg-color, #49B1F5) !important;
   padding: 2.5rem 0 1.5rem;
-}
-
-[data-theme='dark'] #footer {
-  background: #1a1a2e !important;
 }
 
 #footer .footer-other .copyright {

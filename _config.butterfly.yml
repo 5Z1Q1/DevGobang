@@ -91,7 +91,7 @@ category_img:
 category_per_img:
 
 # The background image of footer
-footer_img:
+footer_img: /img/bg.png
 
 # Website Background
 # Can set it to color or image url
