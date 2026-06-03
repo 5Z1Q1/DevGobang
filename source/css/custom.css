@@ -31,6 +31,11 @@ figure.highlight,
   padding-bottom: 0;
 }
 
+/* 浅色代码块前景色加深（主题 light 默认 #90a4ae 太淡） */
+:root {
+  --hl-color: #37474F;
+}
+
 /* 修复代码块水平滚动（table 恢复表格布局，figure 控制滚动） */
 #article-container figure.highlight {
   overflow-x: auto;
@@ -44,6 +49,82 @@ figure.highlight,
 #article-container figure.highlight .code pre {
   width: auto;
   white-space: pre;
+}
+
+/* 代码块语法高亮配色（浅色背景适配） */
+#article-container figure.highlight .hljs-keyword,
+#article-container figure.highlight .hljs-selector-tag,
+#article-container figure.highlight .hljs-literal,
+#article-container figure.highlight .hljs-section,
+#article-container figure.highlight .hljs-link {
+  color: #D73A49;
+}
+
+#article-container figure.highlight .hljs-string,
+#article-container figure.highlight .hljs-addition,
+#article-container figure.highlight .hljs-attribute,
+#article-container figure.highlight .hljs-regexp,
+#article-container figure.highlight .hljs-meta-string {
+  color: #032F62;
+}
+
+#article-container figure.highlight .hljs-number,
+#article-container figure.highlight .hljs-built_in,
+#article-container figure.highlight .hljs-params,
+#article-container figure.highlight .hljs-literal .hljs-number {
+  color: #005CC5;
+}
+
+#article-container figure.highlight .hljs-comment,
+#article-container figure.highlight .hljs-quote,
+#article-container figure.highlight .hljs-meta {
+  color: #6A737D;
+}
+
+#article-container figure.highlight .hljs-function,
+#article-container figure.highlight .hljs-title,
+#article-container figure.highlight .hljs-name,
+#article-container figure.highlight .hljs-type {
+  color: #6F42C1;
+}
+
+#article-container figure.highlight .hljs-class .hljs-title,
+#article-container figure.highlight .hljs-title.class_ {
+  color: #E36209;
+}
+
+#article-container figure.highlight .hljs-variable,
+#article-container figure.highlight .hljs-template-variable,
+#article-container figure.highlight .hljs-tag,
+#article-container figure.highlight .hljs-selector-id,
+#article-container figure.highlight .hljs-selector-class {
+  color: #E36209;
+}
+
+#article-container figure.highlight .hljs-subst {
+  color: #37474F;
+}
+
+#article-container figure.highlight .hljs-attr,
+#article-container figure.highlight .hljs-symbol,
+#article-container figure.highlight .hljs-bullet {
+  color: #005CC5;
+}
+
+#article-container figure.highlight .hljs-deletion {
+  color: #D73A49;
+}
+
+#article-container figure.highlight .hljs-emphasis {
+  font-style: normal;
+}
+
+#article-container figure.highlight .hljs-strong {
+  font-weight: bold;
+}
+
+#article-container figure.highlight .hljs-link {
+  text-decoration: underline;
 }
 
 /* 封面标题字号 */
