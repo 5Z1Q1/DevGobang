@@ -36,14 +36,13 @@ figure.highlight,
   --hl-color: #37474F;
 }
 
-/* 修复代码块水平滚动（table 恢复表格布局，figure 控制滚动） */
+/* 修复代码块水平滚动（短代码不撑满，长代码触发 figure 滚动条） */
 #article-container figure.highlight {
   overflow-x: auto;
 }
 #article-container figure.highlight table {
   display: table;
   width: auto;
-  min-width: 100%;
   overflow: visible;
 }
 #article-container figure.highlight .code pre {
