@@ -51,6 +51,24 @@ figure.highlight,
   white-space: pre;
 }
 
+/* 代码块抬头收窄 */
+#article-container .highlight-tools {
+  height: 1.6em;
+  min-height: 20px;
+  font-size: 13px;
+  padding: 0 6px;
+}
+#article-container figure.highlight .highlight-tools .macStyle > * {
+  width: 10px;
+  height: 10px;
+  margin-right: 6px;
+}
+/* 代码块左对齐 */
+#article-container figure.highlight,
+#article-container figure.highlight .code pre code {
+  text-align: left;
+}
+
 /* 代码块语法高亮配色（浅色背景适配） */
 #article-container figure.highlight .hljs-keyword,
 #article-container figure.highlight .hljs-selector-tag,
