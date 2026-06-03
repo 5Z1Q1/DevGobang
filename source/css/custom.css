@@ -25,6 +25,12 @@ figure.highlight,
   font-family: 'Jetbrains Mono', 'Consolas', monospace;
 }
 
+/* 修复代码块上下多余空行（覆盖主题 figure.highlight pre 的 padding: 8px 0） */
+#article-container figure.highlight pre {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 /* 封面标题字号 */
 #site-title {
   font-size: 1.85em !important;
