@@ -8,34 +8,46 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body {
     width: 100%; min-height: 100vh; overflow-x: hidden;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-family: "JetBrains Mono", "SFMono-Regular", Consolas, -apple-system, "PingFang SC", "Microsoft YaHei", monospace;
   }
   body {
-    background: radial-gradient(ellipse at top, #1f2a44 0%, #14182a 45%, #0a0e1a 100%);
-    position: relative; color: #e8ecf3;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(0,229,255,0.10) 0%, transparent 45%),
+      radial-gradient(ellipse at 80% 100%, rgba(255,0,153,0.08) 0%, transparent 45%),
+      linear-gradient(180deg, #f5f7fb 0%, #eef1f7 100%);
+    position: relative; color: #1a2238;
   }
-  /* 棋盘网格背景 */
+  /* 棋盘网格 + 赛博网格 */
   .board-grid {
-    position: absolute; inset: 0; pointer-events: none; opacity: 0.18;
+    position: absolute; inset: 0; pointer-events: none;
     background-image:
-      linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px);
+      linear-gradient(rgba(30,41,59,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30,41,59,0.06) 1px, transparent 1px);
     background-size: 44px 44px;
-    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+    mask-image: radial-gradient(ellipse at center, #000 35%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 35%, transparent 78%);
   }
-  /* 散落的棋子 */
+  /* 扫描线 */
+  .scanlines {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0.35;
+    background: repeating-linear-gradient(
+      to bottom, transparent 0, transparent 3px, rgba(0,229,255,0.025) 3px, rgba(0,229,255,0.025) 4px
+    );
+    mix-blend-mode: multiply;
+  }
+  /* 散落棋子 */
   .pieces { position: absolute; inset: 0; pointer-events: none; }
   .piece {
     position: absolute; border-radius: 50%;
-    box-shadow: 0 0 18px rgba(0,0,0,0.4);
     animation: drift 14s ease-in-out infinite;
   }
   .piece.black {
-    background: radial-gradient(circle at 35% 30%, #4a5568 0%, #1a202c 45%, #050810 100%);
+    background: radial-gradient(circle at 35% 30%, #475569 0%, #1e293b 50%, #0f172a 100%);
+    box-shadow: 0 0 14px rgba(15,23,42,0.4), 0 0 22px rgba(0,229,255,0.3);
   }
   .piece.white {
-    background: radial-gradient(circle at 35% 30%, #ffffff 0%, #e2e8f0 50%, #a0aec0 100%);
+    background: radial-gradient(circle at 35% 30%, #ffffff 0%, #e2e8f0 60%, #94a3b8 100%);
+    box-shadow: 0 0 14px rgba(255,255,255,0.9), 0 0 22px rgba(255,0,153,0.3);
   }
   @keyframes drift {
     0%, 100% { transform: translate(0,0); }
@@ -48,26 +60,50 @@
     align-items: center; justify-content: center;
     padding: 2rem 1.5rem;
   }
+  /* 顶部状态条 */
+  .status-bar {
+    position: absolute; top: 1.2rem; left: 1.5rem; right: 1.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.72rem; letter-spacing: 0.2em; color: #64748b;
+    z-index: 6;
+  }
+  .status-bar .dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: #00e5ff; margin-right: 6px; vertical-align: middle;
+    box-shadow: 0 0 8px #00e5ff;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot { 50% { opacity: 0.4; } }
+  .status-bar .right { color: #ec4899; }
   /* 头像 */
   .avatar-wrap {
     position: relative; margin-bottom: 1.8rem;
-    width: 150px; height: 150px;
+    width: 140px; height: 140px;
   }
   .avatar-ring {
-    position: absolute; inset: -8px; border-radius: 50%;
-    background: conic-gradient(from 0deg, #e94560, #f9c74f, #5eead4, #a78bfa, #e94560);
+    position: absolute; inset: -6px; border-radius: 50%;
+    background: conic-gradient(from 0deg, #00e5ff, #ec4899, #f9c74f, #00e5ff);
     animation: spin 8s linear infinite;
-    filter: blur(2px); opacity: 0.85;
+    filter: blur(3px); opacity: 0.7;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
   .avatar {
     position: relative; width: 100%; height: 100%;
     border-radius: 50%; overflow: hidden;
     background: #fff;
-    border: 3px solid rgba(255,255,255,0.9);
-    box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 60px rgba(233,69,96,0.25);
+    border: 3px solid #fff;
+    box-shadow: 0 8px 32px rgba(30,41,59,0.18), 0 0 40px rgba(0,229,255,0.35);
   }
   .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* 角标装饰 */
+  .corner {
+    position: absolute; width: 18px; height: 18px;
+    border: 2px solid #00e5ff;
+  }
+  .corner.tl { top: -4px; left: -4px; border-right: none; border-bottom: none; }
+  .corner.tr { top: -4px; right: -4px; border-left: none; border-bottom: none; }
+  .corner.bl { bottom: -4px; left: -4px; border-right: none; border-top: none; }
+  .corner.br { bottom: -4px; right: -4px; border-left: none; border-top: none; }
   /* 标题 */
   .brand {
     display: flex; align-items: center; gap: 0.6rem;
@@ -75,122 +111,152 @@
   }
   .brand-dot {
     width: 14px; height: 14px; border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #4a5568, #050810);
-    box-shadow: 0 0 10px rgba(0,0,0,0.6);
+    background: radial-gradient(circle at 35% 30%, #475569, #0f172a);
+    box-shadow: 0 0 10px rgba(0,229,255,0.6);
   }
   .title {
-    font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
     font-size: clamp(2.4rem, 7vw, 4.2rem);
-    font-weight: 800; letter-spacing: 0.08em;
-    background: linear-gradient(180deg, #ffffff 0%, #cbd5e0 100%);
+    font-weight: 800; letter-spacing: 0.06em;
+    background: linear-gradient(90deg, #0f172a 0%, #1e40af 50%, #0f172a 100%);
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent;
+    position: relative;
+  }
+  .title::after {
+    content: 'DevGobang'; position: absolute; left: 2px; top: 0;
+    color: #ec4899; opacity: 0.5; z-index: -1;
+    -webkit-text-fill-color: #ec4899;
   }
   .tagline {
-    font-size: clamp(0.85rem, 1.8vw, 1rem);
-    color: #f9c74f; letter-spacing: 0.3em; text-transform: uppercase;
-    margin-bottom: 1.6rem; font-weight: 500;
+    font-size: clamp(0.78rem, 1.6vw, 0.92rem);
+    color: #0891b2; letter-spacing: 0.35em; text-transform: uppercase;
+    margin-bottom: 1.4rem; font-weight: 600;
   }
+  .tagline .bracket { color: #cbd5e1; }
   .subtitle {
-    font-size: clamp(0.95rem, 2vw, 1.15rem);
-    color: rgba(232,236,243,0.7);
-    min-height: 1.8em; margin-bottom: 2.8rem;
-    font-weight: 300; letter-spacing: 0.04em; text-align: center;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: #475569;
+    min-height: 1.8em; margin-bottom: 2.6rem;
+    font-weight: 400; letter-spacing: 0.04em; text-align: center;
   }
+  .subtitle .prefix { color: #94a3b8; }
   .cursor {
-    display: inline-block; width: 2px; height: 1em;
-    background: #f9c74f; margin-left: 3px; vertical-align: middle;
+    display: inline-block; width: 8px; height: 1.1em;
+    background: #00e5ff; margin-left: 4px; vertical-align: middle;
     animation: blink 1s step-end infinite;
+    box-shadow: 0 0 8px #00e5ff;
   }
   @keyframes blink { 50% { opacity: 0; } }
   /* 入口 */
-  .entries { display: flex; gap: 1.4rem; flex-wrap: wrap; justify-content: center; }
+  .entries { display: flex; gap: 1.3rem; flex-wrap: wrap; justify-content: center; }
   .entry {
     position: relative; overflow: hidden;
     display: flex; align-items: center; gap: 0.9rem;
-    padding: 1.1rem 1.8rem; min-width: 220px;
-    border-radius: 14px; text-decoration: none; color: #e8ecf3;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.12);
+    padding: 1.1rem 1.8rem; min-width: 230px;
+    border-radius: 12px; text-decoration: none; color: #1a2238;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(0,229,255,0.35);
     backdrop-filter: blur(10px);
     transition: all 0.3s cubic-bezier(0.2,0.8,0.2,1);
   }
   .entry::before {
     content: ''; position: absolute; inset: 0;
-    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.12) 50%, transparent 70%);
+    background: linear-gradient(120deg, transparent 30%, rgba(0,229,255,0.18) 50%, transparent 70%);
     transform: translateX(-120%); transition: transform 0.7s;
   }
   .entry:hover::before { transform: translateX(120%); }
   .entry:hover {
     transform: translateY(-4px);
-    background: rgba(255,255,255,0.1);
-    border-color: rgba(255,255,255,0.25);
-    box-shadow: 0 14px 40px rgba(0,0,0,0.4);
+    background: rgba(255,255,255,0.95);
+    border-color: #00e5ff;
+    box-shadow: 0 12px 32px rgba(0,229,255,0.25), 0 0 0 1px rgba(0,229,255,0.4);
   }
-  .entry.diary { background: rgba(233,69,96,0.12); border-color: rgba(233,69,96,0.3); }
-  .entry.diary:hover { background: rgba(233,69,96,0.22); border-color: rgba(233,69,96,0.5); }
-  .entry .icon { font-size: 1.5rem; line-height: 1; }
+  .entry.diary { border-color: rgba(236,72,153,0.4); }
+  .entry.diary:hover { border-color: #ec4899; box-shadow: 0 12px 32px rgba(236,72,153,0.25), 0 0 0 1px rgba(236,72,153,0.4); }
+  .entry.diary::before { background: linear-gradient(120deg, transparent 30%, rgba(236,72,153,0.18) 50%, transparent 70%); }
+  .entry .icon {
+    font-size: 1.4rem; line-height: 1;
+    width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+    border-radius: 8px; background: rgba(0,229,255,0.1);
+  }
+  .entry.diary .icon { background: rgba(236,72,153,0.1); }
   .entry .text { display: flex; flex-direction: column; }
-  .entry .label { font-size: 1.05rem; font-weight: 600; letter-spacing: 0.04em; }
-  .entry .sub { font-size: 0.75rem; color: rgba(232,236,243,0.55); margin-top: 2px; }
+  .entry .label { font-size: 1.02rem; font-weight: 700; letter-spacing: 0.04em; }
+  .entry .sub { font-size: 0.72rem; color: #64748b; margin-top: 2px; letter-spacing: 0.08em; }
+  .entry .arrow {
+    margin-left: auto; color: #00e5ff; font-weight: 700;
+    transition: transform 0.3s;
+  }
+  .entry.diary .arrow { color: #ec4899; }
+  .entry:hover .arrow { transform: translateX(4px); }
   /* 页脚 */
   .footer-hint {
     position: absolute; bottom: 1.4rem; left: 0; right: 0;
-    text-align: center; color: rgba(232,236,243,0.35);
-    font-size: 0.78rem; letter-spacing: 0.18em; z-index: 5;
+    text-align: center; color: #64748b;
+    font-size: 0.72rem; letter-spacing: 0.2em; z-index: 5;
   }
-  .footer-hint .sep { margin: 0 0.6em; color: rgba(249,199,79,0.4); }
+  .footer-hint .sep { margin: 0 0.6em; color: #cbd5e1; }
+  .footer-hint .accent { color: #0891b2; }
   @media (max-width: 520px) {
     .entries { flex-direction: column; width: 100%; max-width: 320px; }
-    .entry { width: 100%; justify-content: flex-start; }
+    .entry { width: 100%; }
+    .status-bar { font-size: 0.62rem; }
   }
 </style>
 </head>
 <body>
   <div class="board-grid"></div>
+  <div class="scanlines"></div>
   <div class="pieces" id="pieces"></div>
+  <div class="status-bar">
+    <span><span class="dot"></span>SYS ONLINE · v2.0</span>
+    <span class="right">// 5Z1Q1.TOP</span>
+  </div>
   <div class="cover">
     <div class="avatar-wrap">
       <div class="avatar-ring"></div>
       <div class="avatar"><img src="/img/favicon.jpg" alt="DevGobang"></div>
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
     </div>
     <div class="brand">
       <span class="brand-dot"></span>
       <h1 class="title">DevGobang</h1>
     </div>
-    <div class="tagline">Code Black First</div>
-    <p class="subtitle"><span id="typed"></span><span class="cursor"></span></p>
+    <div class="tagline"><span class="bracket">[</span> Code Black First <span class="bracket">]</span></div>
+    <p class="subtitle"><span class="prefix">&gt;_</span> <span id="typed"></span><span class="cursor"></span></p>
     <div class="entries">
       <a class="entry blog" href="/blog/">
         <span class="icon">📝</span>
         <span class="text">
           <span class="label">技术博客</span>
-          <span class="sub">代码 · 算法 · 笔记</span>
+          <span class="sub">CODE · ALGO · NOTES</span>
         </span>
+        <span class="arrow">→</span>
       </a>
       <a class="entry diary" href="/diary/">
         <span class="icon">🔒</span>
         <span class="text">
           <span class="label">我们的日记</span>
-          <span class="sub">仅限我们两人</span>
+          <span class="sub">PRIVATE · US ONLY</span>
         </span>
+        <span class="arrow">→</span>
       </a>
     </div>
   </div>
   <div class="footer-hint">
-    © DevGobang<span class="sep">·</span>五子棋<span class="sep">·</span>Every Sunrise Fills Joy
+    <span class="accent">&copy;</span> DevGobang<span class="sep">|</span>五子棋<span class="sep">|</span>Every Sunrise Fills Joy
   </div>
   <script>
-    // 散落棋子
     const box = document.getElementById('pieces');
     const cfg = [
-      { x: 8, y: 15, s: 26, c: 'black', d: 0 },
-      { x: 85, y: 18, s: 22, c: 'white', d: 2 },
-      { x: 12, y: 78, s: 30, c: 'white', d: 4 },
-      { x: 88, y: 72, s: 24, c: 'black', d: 1 },
-      { x: 78, y: 88, s: 18, c: 'black', d: 3 },
-      { x: 20, y: 45, s: 16, c: 'white', d: 5 },
-      { x: 70, y: 40, s: 14, c: 'black', d: 2 }
+      { x: 7, y: 14, s: 24, c: 'black', d: 0 },
+      { x: 86, y: 16, s: 20, c: 'white', d: 2 },
+      { x: 11, y: 80, s: 28, c: 'white', d: 4 },
+      { x: 89, y: 74, s: 22, c: 'black', d: 1 },
+      { x: 80, y: 90, s: 16, c: 'black', d: 3 },
+      { x: 18, y: 44, s: 14, c: 'white', d: 5 },
+      { x: 72, y: 38, s: 12, c: 'black', d: 2 }
     ];
     cfg.forEach(p => {
       const el = document.createElement('div');
@@ -199,15 +265,14 @@
       el.style.top = p.y + '%';
       el.style.width = el.style.height = p.s + 'px';
       el.style.animationDelay = '-' + p.d + 's';
-      el.style.opacity = (0.4 + Math.random() * 0.3).toFixed(2);
+      el.style.opacity = (0.5 + Math.random() * 0.3).toFixed(2);
       box.appendChild(el);
     });
-    // 打字机
     const lines = [
       'Every Sunrise Fills Joy.',
       '记录代码 · 记录生活 · 记录我们',
       '黑子先行 · 五子连珠',
-      '欢迎来到 DevGobang'
+      'welcome to devgobang.sh'
     ];
     const typed = document.getElementById('typed');
     let li = 0, ci = 0, deleting = false;
@@ -220,7 +285,7 @@
         typed.textContent = cur.slice(0, --ci);
         if (ci === 0) { deleting = false; li = (li + 1) % lines.length; }
       }
-      setTimeout(tick, deleting ? 40 : 95);
+      setTimeout(tick, deleting ? 40 : 90);
     }
     tick();
   </script>
