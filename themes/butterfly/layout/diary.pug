@@ -1,0 +1,14 @@
+extends includes/layout.pug
+
+block content
+  #diary-page
+    script.
+      (function () {
+        if (sessionStorage.getItem('diaryUnlocked') !== '1') {
+          location.replace('/diary/');
+        }
+      })();
+    article.diary-post
+      h1.diary-title= page.title
+      .diary-date= page.date.format('YYYY-MM-DD')
+      .diary-content!= page.content

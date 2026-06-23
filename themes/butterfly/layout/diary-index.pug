@@ -1,0 +1,85 @@
+extends includes/layout.pug
+
+block content
+  #diary-index
+    style.
+      .diary-gate-form {
+        max-width: 420px; margin: 8vh auto 0; padding: 2.5rem 2rem;
+        background: var(--card-bg, #fff); border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        text-align: center;
+      }
+      .diary-gate-form h2 { margin-bottom: 1.2rem; font-size: 1.5rem; }
+      .diary-gate-form p { color: #666; margin-bottom: 1.5rem; font-size: 0.95rem; }
+      .diary-gate-form input {
+        width: 100%; padding: 0.7rem 1rem; font-size: 1rem;
+        border: 1px solid #ddd; border-radius: 8px; margin-bottom: 1rem; outline: none;
+        transition: border-color .2s;
+      }
+      .diary-gate-form input:focus { border-color: #e94560; }
+      .diary-gate-form button {
+        width: 100%; padding: 0.7rem; font-size: 1rem; cursor: pointer;
+        background: #e94560; color: #fff; border: none; border-radius: 8px;
+        transition: background .2s;
+      }
+      .diary-gate-form button:hover { background: #c81e45; }
+      .diary-list { max-width: 720px; margin: 4vh auto; padding: 0 1rem; }
+      .diary-list h2 { margin-bottom: 1.5rem; font-size: 1.6rem; text-align: center; }
+      .diary-list ul { list-style: none; padding: 0; }
+      .diary-list li {
+        padding: 1rem 1.2rem; margin-bottom: 0.8rem;
+        background: var(--card-bg, #fff); border-radius: 12px;
+        transition: transform .2s, box-shadow .2s;
+      }
+      .diary-list li:hover { transform: translateX(4px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+      .diary-list a { text-decoration: none; color: inherit; display: block; }
+      .diary-list .diary-item-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
+      .diary-list .diary-item-date { font-size: 0.85rem; color: #888; }
+      .diary-list .diary-item-desc { font-size: 0.9rem; color: #666; margin-top: 0.3rem; }
+
+    - const diaryPages = site.pages.filter(p => p.layout === 'diary').toArray().sort((a, b) => b.date - a.date);
+
+    #diary-gate-form.diary-gate-form
+      h2 🔒 进入日记
+      p 这里是我们的私密小天地，请输入密码。
+      form(onsubmit="tryUnlock(event); return false;")
+        input#pwd(type="password" placeholder="请输入密码" autofocus)
+        button(type="submit") 进入
+      a(href="/" style="display:inline-block;margin-top:1rem;font-size:0.85rem;color:#999;text-decoration:none;") ← 返回首页
+
+    #diary-list.diary-list(style="display:none;")
+      h2 📖 我们的日记
+      ul
+        each p in diaryPages
+          li
+            a(href=url_for(p.path))
+              .diary-item-title= p.title || p.slug
+              .diary-item-date= p.date.format('YYYY-MM-DD')
+              if p.description
+                .diary-item-desc= p.description
+      a(href="/" style="display:block;text-align:center;margin-top:2rem;font-size:0.85rem;color:#999;text-decoration:none;") ← 返回首页
+      button#lock-again(style="display:block;margin:1rem auto 0;background:none;border:none;color:#999;font-size:0.85rem;cursor:pointer;text-decoration:underline;") 🔒 重新上锁
+
+    script.
+      (function () {
+        const unlocked = sessionStorage.getItem('diaryUnlocked') === '1';
+        if (unlocked) {
+          document.getElementById('diary-gate-form').style.display = 'none';
+          document.getElementById('diary-list').style.display = 'block';
+        }
+        window.tryUnlock = function (e) {
+          e.preventDefault();
+          const pwd = document.getElementById('pwd').value;
+          if (pwd === '05151228') {
+            sessionStorage.setItem('diaryUnlocked', '1');
+            location.reload();
+          } else {
+            alert('密码不对哦~');
+          }
+        };
+        const lockBtn = document.getElementById('lock-again');
+        if (lockBtn) lockBtn.addEventListener('click', function () {
+          sessionStorage.removeItem('diaryUnlocked');
+          location.reload();
+        });
+      })();
