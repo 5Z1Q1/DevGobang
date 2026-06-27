@@ -653,7 +653,7 @@ body::before {
   background: transparent !important;
 }
 .gutter {
-  border-right: 1px solid rgba(0,229,255,0.2) !important;
+  border-right: none !important;
 }
 
 /* 引用块：品红左边框 */
@@ -825,10 +825,6 @@ html[data-theme="dark"] #article-container code,
 html[data-theme="dark"] #article-container pre code {
   color: #e8ecf3 !important;
 }
-html[data-theme="dark"] .gutter {
-  border-right-color: rgba(0,229,255,0.3) !important;
-}
-
 html[data-theme="dark"] #article-container blockquote {
   background: rgba(236,72,153,0.08) !important;
   border-left-color: #ec4899 !important;
