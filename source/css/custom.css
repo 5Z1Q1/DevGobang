@@ -589,7 +589,7 @@ body::before {
 .recent-post-item,
 #aside-content .card-widget,
 #post,
-.layout > div {
+.layout > div:not(#aside-content) {
   background: rgba(255,255,255,0.7) !important;
   border: 1px solid rgba(0,229,255,0.2) !important;
   backdrop-filter: blur(8px);
@@ -765,7 +765,7 @@ html[data-theme="dark"] .card-widget,
 html[data-theme="dark"] .recent-post-item,
 html[data-theme="dark"] #aside-content .card-widget,
 html[data-theme="dark"] #post,
-html[data-theme="dark"] .layout > div {
+html[data-theme="dark"] .layout > div:not(#aside-content) {
   background: rgba(30,41,59,0.55) !important;
   border-color: rgba(0,229,255,0.28) !important;
   color: #e8ecf3 !important;
