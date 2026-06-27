@@ -4,7 +4,7 @@ date: 2025-11-13 16:05:39
 tags: [Python, Conda, Anaconda, Miniconda, 环境管理, 包管理]
 categories: [技术教程, 工具使用]
 description: Anaconda/Miniconda常用指令速查手册，包含环境管理、包管理等核心功能
-cover: /img/conda.png
+cover: /img/conda.webp
 sticky: 100
 ---
 

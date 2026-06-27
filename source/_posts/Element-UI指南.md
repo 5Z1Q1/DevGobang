@@ -3,7 +3,7 @@ title: Element-UI指南
 date: 2025-09-04 23:24:19
 tags: [Vue, Element-UI, 前端, UI组件库]
 categories: [前端开发, Vue.js]
-cover: /img/elementUI-cover.png
+cover: /img/elementUI-cover.webp
 description: Element UI 是一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库，本文详细介绍其常用组件、样式优先级和使用技巧。
 ---
 

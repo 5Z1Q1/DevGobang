@@ -1,7 +1,7 @@
 ---
 title: 从零开始配置Python环境
 date: 2026-03-05 14:05:23
-cover: /img/PythonStart.png
+cover: /img/PythonStart.webp
 categories:
   - 技术教程
 tags:

@@ -3,7 +3,7 @@ title: React框架指南
 date: 2025-09-04 23:56:16
 tags: [React, 前端, JavaScript, 组件, 框架]
 categories: [前端开发, React]
-cover: /img/React-cover.jpg
+cover: /img/React-cover.webp
 description: 全面介绍React框架的核心概念、组件使用方式、页面渲染优先级和布局调整技巧
 ---
 
