@@ -642,12 +642,15 @@ body::before {
   box-shadow: 0 0 12px rgba(0,229,255,0.35);
 }
 
-/* 代码块：浅底 + 青色边 */
-#article-container figure.highlight,
-#article-container pre {
+/* 代码块：浅底 + 青色边（只包 figure，内部 pre 不加边框） */
+#article-container figure.highlight {
   background: rgba(245,247,251,0.9) !important;
   border: 1px solid rgba(0,229,255,0.25) !important;
   border-radius: 8px !important;
+}
+#article-container figure.highlight pre {
+  border: none !important;
+  background: transparent !important;
 }
 .gutter {
   border-right: 1px solid rgba(0,229,255,0.2) !important;
@@ -810,10 +813,13 @@ html[data-theme="dark"] .tag-list a:hover {
   box-shadow: 0 0 14px rgba(0,229,255,0.45);
 }
 
-html[data-theme="dark"] #article-container figure.highlight,
-html[data-theme="dark"] #article-container pre {
+html[data-theme="dark"] #article-container figure.highlight {
   background: rgba(15,23,42,0.85) !important;
   border-color: rgba(0,229,255,0.35) !important;
+}
+html[data-theme="dark"] #article-container figure.highlight pre {
+  border: none !important;
+  background: transparent !important;
 }
 html[data-theme="dark"] #article-container code,
 html[data-theme="dark"] #article-container pre code {
