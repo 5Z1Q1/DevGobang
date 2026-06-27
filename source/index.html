@@ -147,48 +147,44 @@
     box-shadow: 0 0 8px #00e5ff;
   }
   @keyframes blink { 50% { opacity: 0; } }
-  /* 入口 */
-  .entries { display: flex; gap: 1.3rem; flex-wrap: wrap; justify-content: center; }
-  .entry {
-    position: relative; overflow: hidden;
-    display: flex; align-items: center; gap: 0.9rem;
-    padding: 1.1rem 1.8rem; min-width: 230px;
-    border-radius: 12px; text-decoration: none; color: #1a2238;
-    background: rgba(255,255,255,0.7);
-    border: 1px solid rgba(0,229,255,0.35);
-    backdrop-filter: blur(10px);
+  /* 滑动提示 */
+  .entries { display: flex; justify-content: center; }
+  .scroll-hint {
+    display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+    text-decoration: none; color: #475569;
+    padding: 0.8rem 1.4rem;
+    border: 1px solid rgba(0,229,255,0.25);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(8px);
     transition: all 0.3s cubic-bezier(0.2,0.8,0.2,1);
+    animation: bob 2.4s ease-in-out infinite;
   }
-  .entry::before {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(120deg, transparent 30%, rgba(0,229,255,0.18) 50%, transparent 70%);
-    transform: translateX(-120%); transition: transform 0.7s;
-  }
-  .entry:hover::before { transform: translateX(120%); }
-  .entry:hover {
-    transform: translateY(-4px);
-    background: rgba(255,255,255,0.95);
+  .scroll-hint:hover {
+    color: #0891b2;
     border-color: #00e5ff;
-    box-shadow: 0 12px 32px rgba(0,229,255,0.25), 0 0 0 1px rgba(0,229,255,0.4);
+    background: rgba(255,255,255,0.85);
+    box-shadow: 0 0 24px rgba(0,229,255,0.35);
+    transform: scale(1.05);
   }
-  .entry.diary { border-color: rgba(236,72,153,0.4); }
-  .entry.diary:hover { border-color: #ec4899; box-shadow: 0 12px 32px rgba(236,72,153,0.25), 0 0 0 1px rgba(236,72,153,0.4); }
-  .entry.diary::before { background: linear-gradient(120deg, transparent 30%, rgba(236,72,153,0.18) 50%, transparent 70%); }
-  .entry .icon {
-    font-size: 1.4rem; line-height: 1;
-    width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
-    border-radius: 8px; background: rgba(0,229,255,0.1);
+  .scroll-hint .hint-text {
+    font-size: 0.92rem; letter-spacing: 0.15em; font-weight: 600;
   }
-  .entry.diary .icon { background: rgba(236,72,153,0.1); }
-  .entry .text { display: flex; flex-direction: column; }
-  .entry .label { font-size: 1.02rem; font-weight: 700; letter-spacing: 0.04em; }
-  .entry .sub { font-size: 0.72rem; color: #64748b; margin-top: 2px; letter-spacing: 0.08em; }
-  .entry .arrow {
-    margin-left: auto; color: #00e5ff; font-weight: 700;
-    transition: transform 0.3s;
+  .scroll-hint .hint-arrow {
+    font-size: 1.4rem; line-height: 1; color: #00e5ff;
+    text-shadow: 0 0 8px rgba(0,229,255,0.5);
   }
-  .entry.diary .arrow { color: #ec4899; }
-  .entry:hover .arrow { transform: translateX(4px); }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+  /* 滑动触发的过渡遮罩 */
+  .nav-fade {
+    position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+    background: linear-gradient(180deg, transparent 0%, #f5f7fb 100%);
+    opacity: 0; transition: opacity 0.4s ease;
+  }
+  .nav-fade.active { opacity: 1; }
   /* 页脚 */
   .footer-hint {
     position: absolute; bottom: 1.4rem; left: 0; right: 0;
@@ -198,9 +194,8 @@
   .footer-hint .sep { margin: 0 0.6em; color: #cbd5e1; }
   .footer-hint .accent { color: #0891b2; }
   @media (max-width: 520px) {
-    .entries { flex-direction: column; width: 100%; max-width: 320px; }
-    .entry { width: 100%; }
     .status-bar { font-size: 0.62rem; }
+    .scroll-hint .hint-text { font-size: 0.82rem; }
   }
 </style>
 </head>
@@ -208,6 +203,7 @@
   <div class="board-grid"></div>
   <div class="scanlines"></div>
   <div class="pieces" id="pieces"></div>
+  <div class="nav-fade" id="nav-fade"></div>
   <div class="status-bar">
     <span><span class="dot"></span>SYS ONLINE · v2.0</span>
     <span class="right">// 5Z1Q1.TOP</span>
@@ -226,13 +222,9 @@
     <div class="tagline"><span class="bracket">[</span> Code Black First <span class="bracket">]</span></div>
     <p class="subtitle"><span class="prefix">&gt;_</span> <span id="typed"></span><span class="cursor"></span></p>
     <div class="entries">
-      <a class="entry blog" href="/blog/">
-        <span class="icon">📝</span>
-        <span class="text">
-          <span class="label">技术博客</span>
-          <span class="sub">CODE · ALGO · NOTES</span>
-        </span>
-        <span class="arrow">→</span>
+      <a class="scroll-hint" href="/blog/" aria-label="向下滑动进入博客">
+        <span class="hint-text">向下滑动进入博客</span>
+        <span class="hint-arrow">↓</span>
       </a>
     </div>
   </div>
@@ -280,6 +272,31 @@
       setTimeout(tick, deleting ? 40 : 90);
     }
     tick();
+    // 滑动/按键 → 进入博客
+    const goBlog = (() => {
+      let fired = false;
+      return () => {
+        if (fired) return;
+        fired = true;
+        document.getElementById('nav-fade').classList.add('active');
+        setTimeout(() => { window.location.href = '/blog/'; }, 380);
+      };
+    })();
+    let lock = false;
+    window.addEventListener('wheel', e => {
+      if (lock) return;
+      if (e.deltaY > 8) { lock = true; goBlog(); }
+    }, { passive: true });
+    let touchStartY = 0;
+    window.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener('touchmove', e => {
+      if (lock) return;
+      if (touchStartY - e.touches[0].clientY > 40) { lock = true; goBlog(); }
+    }, { passive: true });
+    window.addEventListener('keydown', e => {
+      if (['ArrowDown','PageDown',' ','Enter'].includes(e.key)) { e.preventDefault(); goBlog(); }
+    });
+    document.querySelector('.scroll-hint').addEventListener('click', e => { e.preventDefault(); goBlog(); });
   </script>
 </body>
 </html>
